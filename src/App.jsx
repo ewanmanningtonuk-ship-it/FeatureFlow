@@ -10,12 +10,6 @@ const VIEWS = {
   PERSONALIZATION: 'personalization',
 }
 
-const NAV_ITEMS = [
-  { view: VIEWS.SUBMIT, label: 'Submit Request' },
-  { view: VIEWS.DASHBOARD, label: 'PM Dashboard' },
-  { view: VIEWS.PERSONALIZATION, label: 'Personalization' },
-]
-
 function viewFromHash() {
   const hash = window.location.hash.slice(1)
   return Object.values(VIEWS).includes(hash) ? hash : VIEWS.SUBMIT
@@ -33,6 +27,12 @@ export default function App() {
     window.history.replaceState(null, '', `#${view}`)
   }, [view])
 
+  useEffect(() => {
+    const onHashChange = () => setView(viewFromHash())
+    window.addEventListener('hashchange', onHashChange)
+    return () => window.removeEventListener('hashchange', onHashChange)
+  }, [])
+
   function handleCreate(form) {
     const submission = {
       id: `REQ-${1000 + nextId}`,
@@ -49,39 +49,59 @@ export default function App() {
     setSubmissions((prev) => prev.map((s) => (s.id === id ? { ...s, ...changes } : s)))
   }
 
+  // The Personalization prototype is shown standalone, without the tracker's
+  // header and navigation.
+  if (view === VIEWS.PERSONALIZATION) {
+    return (
+      <main className="min-h-screen bg-white px-4 py-10">
+        <Personalization />
+      </main>
+    )
+  }
+
   return (
-    <div className={`min-h-screen ${view === VIEWS.PERSONALIZATION ? 'bg-white' : 'bg-slate-50'}`}>
+    <div className="min-h-screen bg-slate-50">
       <header className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-4xl items-center justify-between gap-3 px-4 py-4">
-          <div className="flex shrink-0 items-center gap-2">
+        <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-4">
+          <div className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 text-sm font-bold text-white">
               F
             </div>
-            <span className="hidden text-base font-semibold text-slate-900 sm:inline">FeatureFlow</span>
+            <span className="text-base font-semibold text-slate-900">FeatureFlow</span>
           </div>
-          <nav className="flex gap-1 overflow-x-auto rounded-lg bg-slate-100 p-1">
-            {NAV_ITEMS.map((item) => (
-              <button
-                key={item.view}
-                type="button"
-                onClick={() => setView(item.view)}
-                className={`shrink-0 rounded-md px-3 py-1.5 text-sm font-medium whitespace-nowrap transition-colors ${
-                  view === item.view
-                    ? 'bg-white text-slate-900 shadow-sm'
-                    : 'text-slate-500 hover:text-slate-900'
-                }`}
-              >
-                {item.label}
-              </button>
-            ))}
+          <nav className="flex gap-1 rounded-lg bg-slate-100 p-1">
+            <button
+              type="button"
+              onClick={() => setView(VIEWS.SUBMIT)}
+              className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+                view === VIEWS.SUBMIT
+                  ? 'bg-white text-slate-900 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
+            >
+              Submit Request
+            </button>
+            <button
+              type="button"
+              onClick={() => setView(VIEWS.DASHBOARD)}
+              className={`rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+                view === VIEWS.DASHBOARD
+                  ? 'bg-white text-slate-900 shadow-sm'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
+            >
+              PM Dashboard
+            </button>
           </nav>
         </div>
       </header>
 
       <main className="px-4 py-10">
-        {view === VIEWS.SUBMIT && <SubmissionForm onSubmit={handleCreate} />}
-        {view === VIEWS.DASHBOARD && <Dashboard submissions={submissions} onUpdate={handleUpdate} />}
-        {view === VIEWS.PERSONALIZATION && <Personalization />}
+        {view === VIEWS.SUBMIT ? (
+          <SubmissionForm onSubmit={handleCreate} />
+        ) : (
+          <Dashboard submissions={submissions} onUpdate={handleUpdate} />
+        )}
       </main>
     </div>
   )
