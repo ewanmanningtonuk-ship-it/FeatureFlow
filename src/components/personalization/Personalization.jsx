@@ -19,10 +19,12 @@ function AudienceSelect({ id, value, onChange }) {
         id={id}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="absolute inset-0 cursor-pointer opacity-0"
+        // Explicit colours: otherwise the options inherit the pill's cream text
+        // and are unreadable in browsers that draw the list on white (Windows).
+        className="absolute inset-0 cursor-pointer bg-white text-[#1f2a24] opacity-0"
       >
         {AUDIENCES.map((a) => (
-          <option key={a.id} value={a.id}>
+          <option key={a.id} value={a.id} className="bg-white text-[#1f2a24]">
             {a.label}
           </option>
         ))}
