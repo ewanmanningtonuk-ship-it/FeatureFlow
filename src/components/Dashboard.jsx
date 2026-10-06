@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import SubmissionRow from './SubmissionRow'
 import { PRIORITIES, STATUSES } from '../data/mockData'
 
-export default function Dashboard({ submissions, onUpdate }) {
+export default function Dashboard({ submissions, onUpdate, onDelete }) {
   const [statusFilter, setStatusFilter] = useState('All')
   const [priorityFilter, setPriorityFilter] = useState('All')
   const [query, setQuery] = useState('')
@@ -87,7 +87,7 @@ export default function Dashboard({ submissions, onUpdate }) {
           </div>
         )}
         {filtered.map((submission) => (
-          <SubmissionRow key={submission.id} submission={submission} onUpdate={onUpdate} />
+          <SubmissionRow key={submission.id} submission={submission} onUpdate={onUpdate} onDelete={onDelete} />
         ))}
       </div>
     </div>

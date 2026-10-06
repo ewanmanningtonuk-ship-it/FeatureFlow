@@ -30,6 +30,10 @@ export default function App() {
     setSubmissions((prev) => prev.map((s) => (s.id === id ? { ...s, ...changes } : s)))
   }
 
+  function handleDelete(id) {
+    setSubmissions((prev) => prev.filter((s) => s.id !== id))
+  }
+
   return (
     <div className="min-h-screen bg-slate-50">
       <header className="border-b border-slate-200 bg-white">
@@ -71,7 +75,7 @@ export default function App() {
         {view === VIEWS.SUBMIT ? (
           <SubmissionForm onSubmit={handleCreate} />
         ) : (
-          <Dashboard submissions={submissions} onUpdate={handleUpdate} />
+          <Dashboard submissions={submissions} onUpdate={handleUpdate} onDelete={handleDelete} />
         )}
       </main>
     </div>

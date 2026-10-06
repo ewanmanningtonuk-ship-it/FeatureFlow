@@ -11,7 +11,7 @@ function formatDate(iso) {
   })
 }
 
-export default function SubmissionRow({ submission, onUpdate }) {
+export default function SubmissionRow({ submission, onUpdate, onDelete }) {
   const [expanded, setExpanded] = useState(false)
   const [draftStatus, setDraftStatus] = useState(submission.status)
   const [draftResponse, setDraftResponse] = useState(submission.pmResponse)
@@ -20,6 +20,12 @@ export default function SubmissionRow({ submission, onUpdate }) {
 
   function handleSave() {
     onUpdate(submission.id, { status: draftStatus, pmResponse: draftResponse })
+  }
+
+  function handleDelete() {
+    if (window.confirm(`Delete ${submission.id} — "${submission.title}"? This can't be undone.`)) {
+      onDelete(submission.id)
+    }
   }
 
   return (
@@ -99,7 +105,14 @@ export default function SubmissionRow({ submission, onUpdate }) {
             </div>
           </div>
 
-          <div className="flex justify-end">
+          <div className="flex items-center justify-between">
+            <button
+              type="button"
+              onClick={handleDelete}
+              className="rounded-lg px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+            >
+              Delete
+            </button>
             <button
               type="button"
               onClick={handleSave}
