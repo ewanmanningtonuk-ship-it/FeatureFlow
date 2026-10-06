@@ -25,3 +25,15 @@ npm run dev
 ```bash
 npm run build
 ```
+
+## Deploying to Vercel
+
+Each prototype can have its own Vercel project (and URL) from this one repo.
+Vercel detects Vite automatically; no `vercel.json` is needed.
+
+| Project | Environment variable | Root URL shows |
+| --- | --- | --- |
+| Tracker | _(none)_ | Stakeholder Request & Bug Tracker (Personalization still at `/#personalization`) |
+| Personalization | `VITE_PROTOTYPE=personalization` | Only the Personalization component |
+
+`VITE_PROTOTYPE` accepts `submit`, `dashboard` or `personalization`. It is read at build time, so redeploy after changing it.

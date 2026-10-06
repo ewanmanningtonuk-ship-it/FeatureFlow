@@ -16,7 +16,15 @@ const PAGE_META = {
   personalization: { title: 'Tailor-made content — Personalization prototype', icon: '/favicon-forex.svg' },
 }
 
+// A deployment can be pinned to a single prototype with the VITE_PROTOTYPE
+// env var (e.g. a dedicated Vercel project for Personalization). The page then
+// always shows that view at its root URL, with no hash.
+const PINNED_VIEW = Object.values(VIEWS).includes(import.meta.env.VITE_PROTOTYPE)
+  ? import.meta.env.VITE_PROTOTYPE
+  : null
+
 function viewFromHash() {
+  if (PINNED_VIEW) return PINNED_VIEW
   const hash = window.location.hash.slice(1)
   return Object.values(VIEWS).includes(hash) ? hash : VIEWS.SUBMIT
 }
@@ -30,6 +38,7 @@ export default function App() {
   // Mirror the view in the URL hash so each prototype has a shareable link,
   // e.g. /#personalization.
   useEffect(() => {
+    if (PINNED_VIEW) return
     window.history.replaceState(null, '', `#${view}`)
   }, [view])
 
