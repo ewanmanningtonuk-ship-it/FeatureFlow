@@ -1,7 +1,11 @@
 @import 'tailwindcss';
 
 .personalization {
-  font-family: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+}
+
+.personalization .font-display {
+  font-family: 'Fraunces', ui-serif, Georgia, serif;
 }
 
 .no-scrollbar {

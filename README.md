@@ -11,7 +11,9 @@ Data is currently in-memory mock data (`src/data/mockData.js`) — there is no b
 
 ## Personalization
 
-A separate prototype with its own page, favicon and deployment: a "Tailor-made content for you" module. An inline audience dropdown ("I'm *new to trading* and looking for information on:") swaps the set of tabs shown in a tabbed content card. Each tab shows copy and a call-to-action on the left with an image on the right (illustrated placeholders stand in for photography). On mobile the card stacks image-above-copy and the tab bar becomes a horizontal slider with a peeking next tab; swiping the panel also moves between tabs. Tabs follow the WAI-ARIA tabs pattern (arrow keys, Home/End). Content lives in `src/data/personalizationContent.js`.
+A separate prototype with its own page, favicon and deployment, presented as "Pacewise", a fictional running-coach brand. An inline audience dropdown ("I'm *just getting started* and I'd like help with:") swaps the set of topic tabs shown in a content card. Each tab shows an illustration alongside copy and a call to action. On mobile the card stacks and the pill tab bar becomes a horizontal slider; swiping the panel also moves between tabs. Tabs follow the WAI-ARIA tabs pattern (arrow keys, Home/End).
+
+All copy, illustrations (inline SVG) and styling are original to this prototype. Content lives in `src/data/personalizationContent.js`, and illustrations in `src/components/personalization/PlaceholderArt.jsx`.
 
 ## Getting started
 
