@@ -10,6 +10,12 @@ const VIEWS = {
   PERSONALIZATION: 'personalization',
 }
 
+// Each prototype gets its own tab title and favicon.
+const PAGE_META = {
+  tracker: { title: 'FeatureFlow — Stakeholder Request & Bug Tracker', icon: '/favicon.svg' },
+  personalization: { title: 'Tailor-made content — Personalization prototype', icon: '/favicon-forex.svg' },
+}
+
 function viewFromHash() {
   const hash = window.location.hash.slice(1)
   return Object.values(VIEWS).includes(hash) ? hash : VIEWS.SUBMIT
@@ -25,6 +31,12 @@ export default function App() {
   // e.g. /#personalization.
   useEffect(() => {
     window.history.replaceState(null, '', `#${view}`)
+  }, [view])
+
+  useEffect(() => {
+    const meta = view === VIEWS.PERSONALIZATION ? PAGE_META.personalization : PAGE_META.tracker
+    document.title = meta.title
+    document.querySelector('link[rel="icon"]')?.setAttribute('href', meta.icon)
   }, [view])
 
   useEffect(() => {
