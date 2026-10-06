@@ -6,7 +6,11 @@ import PersonalizationPage from './components/personalization/PersonalizationPag
 // pick one; with it unset, production builds serve the tracker only, so the
 // existing tracker deployment is unaffected. Local dev serves both, switched by
 // the URL hash (/#personalization).
-const PROTOTYPE = import.meta.env.VITE_PROTOTYPE || (import.meta.env.DEV ? 'all' : 'tracker')
+// The value is normalised so case, stray whitespace and the British spelling
+// ("personalisation") all work.
+const PROTOTYPE =
+  (import.meta.env.VITE_PROTOTYPE || '').trim().toLowerCase().replace('personalisation', 'personalization') ||
+  (import.meta.env.DEV ? 'all' : 'tracker')
 
 const isPersonalizationHash = () => window.location.hash === '#personalization'
 
