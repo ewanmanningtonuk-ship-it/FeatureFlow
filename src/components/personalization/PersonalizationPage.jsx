@@ -1,12 +1,17 @@
 import { useEffect } from 'react'
 import Personalization from './Personalization'
 
-const TITLE = 'Pacewise — Personalised running advice'
+const TITLE = 'Ewan Mannington Prototype - Pacewise — Personalised running advice'
+const DESCRIPTION =
+  "This is a prototype component I am calling Pacewise. I don't have a design system available to me, something I would definitely incorporate to ensure styling is consistent across the website"
 const FAVICON = '/favicon-personalization.svg'
 const FONT_URL = 'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,600&display=swap'
 
 // Standalone page for the Personalization prototype. It sets its own tab title,
-// favicon and font, and puts the previous ones back when it unmounts.
+// meta description, favicon and font, and puts the previous ones back when it
+// unmounts. The production build also bakes the title/description into the
+// static HTML (see vite.config.js) so link previews and crawlers, which don't
+// run this effect, see the right values too.
 export default function PersonalizationPage() {
   useEffect(() => {
     const icon = document.querySelector('link[rel="icon"]')
@@ -16,6 +21,11 @@ export default function PersonalizationPage() {
     document.title = TITLE
     icon?.setAttribute('href', FAVICON)
 
+    const meta = document.createElement('meta')
+    meta.name = 'description'
+    meta.content = DESCRIPTION
+    document.head.appendChild(meta)
+
     const font = document.createElement('link')
     font.rel = 'stylesheet'
     font.href = FONT_URL
@@ -24,6 +34,7 @@ export default function PersonalizationPage() {
     return () => {
       document.title = prevTitle
       if (prevIcon) icon?.setAttribute('href', prevIcon)
+      meta.remove()
       font.remove()
     }
   }, [])
