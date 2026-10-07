@@ -4,7 +4,9 @@ import tailwindcss from '@tailwindcss/vite'
 
 const PROTOTYPE_META = {
   tracker: {
-    title: 'FeatureFlow — Stakeholder Request & Bug Tracker',
+    title: 'Ewan Mannington - FeatureFlow — Stakeholder Request and Bug Tracker',
+    description:
+      'This is product idea I have that moves stakeholder requests into a user friendly portal outside of Jira ready for Product Managers to review and feedback. I think something like this could help to improve communication and alignment also making business value more transparent',
   },
   personalization: {
     title: 'Ewan Mannington Prototype - Pacewise — Personalised running advice',
